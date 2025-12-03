@@ -34,14 +34,39 @@ jobs:
         name: Test logs
         path: logs/
 
+    - name: Upload Screenshots
+      if: always()
+      uses: actions/upload-artifact@v5.0.0
+      with:
+        name: Screenshots
+        path: screenshots/
+        
     - name: Upload Extent Report
       if: always()
       uses: actions/upload-artifact@v5.0.0
       with:
         name: Extent-Report
         path: ExtentReport.html
-
+      
     - name: Test Execution Status
+      if: always()
       run: echo "Test Execution Completed"
+
+    - name: Copy Report to gh-Pages folder 
+      if: always()
+
+      run:  |
+        mkdir -p public/extent-reports
+        cp -R ExtentReport.html public/extent-reports
+        cp -R screenshots/ public/extent-reports/screenshots/
+        ls -l
+
+    - name: Deploy
+      if: always()
+      uses: JamesIves/github-pages-deploy-action@v4.7.4
+      with:
+        folder: public/extent-reports/
+        token: ${{ secrets.PAT }}
+        clean: true
     
       
