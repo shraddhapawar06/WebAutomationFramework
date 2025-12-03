@@ -113,13 +113,9 @@ public abstract class BrowserUtilty {
         SimpleDateFormat format = new SimpleDateFormat("HH-mm-ss");
         String timeStamp = format.format(date);
 
-        // Create screenshots directory if it doesn't exist
-        File screenshotDir = new File(System.getProperty("user.dir") + "/screenshots/");
-        if (!screenshotDir.exists()) {
-            screenshotDir.mkdirs();
-        }
 
-        String path = System.getProperty("user.dir") + "/screenshots/" + name + "-" + timeStamp + ".png";
+        String path = "./screenshots/" + name + "-" + timeStamp + ".png";
+
         File screenshotFile = new File(path);
 
         try {
