@@ -22,7 +22,7 @@ public class TestBase {
     @BeforeMethod(description = "Load home page of the website")
     public void setUp(@Optional ("chrome") String browser ,
                       @Optional ("false") boolean isLambdaTest,
-                      @Optional ("true") boolean isheadless,
+                      @Optional ("false") boolean isheadless,
                        ITestResult result){
         this.isLambdaTest=isLambdaTest;
         WebDriver lambdaDriver;
