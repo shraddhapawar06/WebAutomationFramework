@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class ExcelReaderUtility {
     public static Iterator<User> readExcelFile(String filename) {
         //XSLX File
-        File xssfFile = new File(System.getProperty("user.dir") + filename);
+        File xssfFile = new File(System.getProperty("user.dir") +"//TestData//"+ filename);
         XSSFWorkbook xssfWorkbook = null;
         Row row;
         Cell emailAddressCell;

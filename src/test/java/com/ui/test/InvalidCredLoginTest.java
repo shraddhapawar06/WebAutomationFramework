@@ -19,7 +19,7 @@ public class InvalidCredLoginTest extends  TestBase{
     @Test(description = "Verify if the proer error msg shown for the user if that user login with invalid username and password",
             groups ={"sanity","e2e"},dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, dataProvider = "LoginTestDataProvider")
     public void InValidLoginTest(User user){
-        assertEquals(homePage.goToLoginPage().doLoginWithInvalidCredential(INVALID_EMAIL_ADDRESS,INVALID_PASSWORD).getErrorMessage(), "Authentication failed");
+        assertEquals(homePage.goToLoginPage().doLoginWithInvalidCredential(INVALID_EMAIL_ADDRESS,INVALID_PASSWORD).getErrorMessage(), "Authentication failed.");
     }
 
 

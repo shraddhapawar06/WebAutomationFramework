@@ -13,7 +13,9 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public abstract class BrowserUtilty {
     // Changed to static ThreadLocal for proper thread isolation
@@ -65,7 +67,7 @@ public abstract class BrowserUtilty {
 
     public BrowserUtilty(WebDriver driver) {
         super();
-        BrowserUtilty.driver.set(driver);
+        this.driver.set(driver);
     }
 
     public void goToWebsite(String url){
@@ -74,32 +76,58 @@ public abstract class BrowserUtilty {
         }
     }
 
-    public void maximizeWindow(){
-        if (driver.get() != null) {
-            driver.get().manage().window().maximize();
+    public void maximizeWindow() {
+        if (getDriver() != null)
+            getDriver().manage().window().maximize();// maximize the window
+    }
+
+    public void clickOn(By locator) {
+        if (getDriver() != null) {
+            WebElement element = WaitUtility.waitForClickable(getDriver(),locator);
+            element.click();
         }
     }
 
-    public void clickOn(By locator){
+    public void enterText(By locator, String text) {
+        if (getDriver() != null) {
+            WebElement element = WaitUtility.waitForVisibility(getDriver(), locator);
+            clearText(locator);
+            element.sendKeys(text);
+        }
+    }
+
+    public void clearText(By locator) {
+        if (getDriver() != null) {
+            WebElement element = WaitUtility.waitForVisibility(getDriver(),locator);
+            element.clear();
+        }
+    }
+
+    public void enterSpecialKey(By locator, Keys keyToEnter){
         if (driver.get() != null) {
             WebElement webElement = driver.get().findElement(locator);
-            webElement.click();
+            webElement.sendKeys(keyToEnter);
         }
     }
 
-    public void enterText(By locator, String dataValue){
-        if (driver.get() != null) {
-            WebElement webElement = driver.get().findElement(locator);
-            webElement.sendKeys(dataValue);
-        }
-    }
-
-    public String getVisibleText(By locator){
-        if (driver.get() != null) {
-            WebElement element = driver.get().findElement(locator);
+    public String getVisibleText(By locator) {
+        if (getDriver() != null) {
+            WebElement element = WaitUtility.waitForVisibility(getDriver(),locator);
             return element.getText();
         }
         return "";
+    }
+
+    public List<String> getAllVisibleText(By locator){
+        if (getDriver() != null) {
+            List<WebElement> webElementList = WaitUtility.waitForVisibleElements(getDriver(),locator);
+            List<String> textList = new ArrayList<>();
+            for(WebElement element: webElementList){
+                textList.add(element.getText());
+            }
+            return textList;
+        }
+        return null;
     }
 
     public String takeScreenshot(String name){
@@ -112,8 +140,6 @@ public abstract class BrowserUtilty {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("HH-mm-ss");
         String timeStamp = format.format(date);
-
-
         String path = "./screenshots/" + name + "-" + timeStamp + ".png";
 
         File screenshotFile = new File(path);

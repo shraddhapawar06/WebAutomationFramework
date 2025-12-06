@@ -22,10 +22,10 @@ public class LoginTest extends TestBase{
 
     }
 
-//    @Test(description = "Verify that user login with valid username and password",
-//            groups ={"sanity","e2e"},dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, dataProvider = "LoginExcelDataProvider")
-//    public void loginExcelTest(User user){
-//        assertEquals(homePage.goToLoginPage().doLoginWith(user.getEmailAddress(),user.getPassword()).getUserName(),"Ssp Verma1");
-//    }
+    @Test(description = "Verify that user login with valid username and password",
+            groups ={"sanity","e2e"},dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, dataProvider = "LoginExcelDataProvider")
+    public void loginExcelTest(User user){
+        assertEquals(homePage.goToLoginPage().doLoginWith(user.getEmailAddress(),user.getPassword()).getUserName(),"Carox Em");
+    }
 
 }
