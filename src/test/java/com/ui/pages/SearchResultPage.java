@@ -4,6 +4,7 @@ import com.utilities.BrowserUtilty;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SearchResultPage extends BrowserUtilty{
@@ -11,6 +12,7 @@ public class SearchResultPage extends BrowserUtilty{
     private static final By PRODUCT_LISTING_TITLE_LOCATOR = By.xpath("//span[@class=\"lighter\"]");
 
     private static final By PRODUCT_LISTS = By.xpath("//h5[@itemprop='name']//a");
+
 
 
     public SearchResultPage(WebDriver driver) {
@@ -21,8 +23,12 @@ public class SearchResultPage extends BrowserUtilty{
         return getVisibleText(PRODUCT_LISTING_TITLE_LOCATOR);
     }
 
-    public List<String> getAllDressesName(){
-         return getAllVisibleText(PRODUCT_LISTS);
+    public boolean isSeachTermPresentInProductList(String searchTerm){
+        List<String> keywords = Arrays.asList(searchTerm.toLowerCase().split(" "));
+        List<String> productNamesList = getAllVisibleText(PRODUCT_LISTS);
+        boolean result=productNamesList.stream().anyMatch(name -> (keywords.stream().anyMatch(name.toLowerCase()::contains)));
+
+         return result;
 
     }
 }

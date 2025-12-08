@@ -9,6 +9,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.io.IOException;
@@ -128,6 +129,20 @@ public abstract class BrowserUtilty {
             return textList;
         }
         return null;
+    }
+
+    public void selectFromDropDown(By dropdownLocator, String optionToSelect){
+        WebElement element= getDriver().findElement(dropdownLocator);
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].style.display='block';", element);
+        Select select= new Select(element);
+        select.selectByContainsVisibleText(optionToSelect);
+    }
+    public void selectDynamicDropdown(By locator, String optionValue){
+        if (driver.get() != null) {
+            clickOn(locator);
+            clickOn(By.xpath("//*[text()='"+optionValue+"']"));
+        }
     }
 
     public String takeScreenshot(String name){
