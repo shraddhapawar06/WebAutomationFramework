@@ -6,7 +6,10 @@ import com.ui.pojo.AddressPOJO;
 import com.utilities.FakerUtility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
+@Listeners({ com.ui.listeners.TestListener.class })
 
 public class AddNewAddressTest extends TestBase{
 

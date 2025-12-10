@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SearchResultPage extends BrowserUtilty{
 
-    private static final By PRODUCT_LISTING_TITLE_LOCATOR = By.xpath("//span[@class=\"lighter\"]");
+    private static final By PRODUCT_LISTING_TITLE_LOCATOR = By.xpath("//span[@class='lighter']");
 
     private static final By PRODUCT_LISTS = By.xpath("//h5[@itemprop='name']//a");
 
@@ -31,4 +31,11 @@ public class SearchResultPage extends BrowserUtilty{
          return result;
 
     }
+    public ProductDetailPage clickOnTheProduct(int index){
+        clickOn(getAllElements(PRODUCT_LISTS).get(index));
+        ProductDetailPage productDetailPage=new ProductDetailPage(getDriver());
+        return productDetailPage;
+    }
+
+
 }

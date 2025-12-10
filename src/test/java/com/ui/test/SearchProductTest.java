@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 public class SearchProductTest extends TestBase{
 
     private MyAccountPage myAccountPage;
-    private static  String SEARCH_TERM="Printed Summer Dress";
+    private static final String SEARCH_TERM="Printed Summer Dress";
 
     @BeforeMethod(description = "Valid user logged into application")
     public void setUp(){
@@ -28,7 +28,7 @@ public class SearchProductTest extends TestBase{
     @Test(description = "Verify the logged in user is able to see search result and all product should display",
             groups = {"e2e","smoke","sanity"})
     public void verifyproductSearchTest() {
-        boolean actualResult = myAccountPage.searchForProduct(SEARCH_TERM).isSeachTermPresentInProductList(SEARCH_TERM);
+        boolean actualResult = myAccountPage.searchForProduct("Printed Summer Dress").isSeachTermPresentInProductList(SEARCH_TERM);
         Assert.assertEquals(actualResult,true);
     }
 

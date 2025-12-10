@@ -37,15 +37,15 @@ public class TestBase {
         }
     }
 
-//    @AfterMethod(description = "Close browser and cleanup")
-//    public void tearDown() {
-//        if (homePage != null) {
-//            if (isLambdaTest)
-//                LambdaTestUtility.quitSession();   //quit browser of lambda session
-//            else
-//                homePage.quitDriver();  //local machine browser quit
-//        }
-//    }
+    @AfterMethod(description = "Close browser and cleanup")
+    public void tearDown() {
+        if (homePage != null) {
+            if (isLambdaTest)
+                LambdaTestUtility.quitSession();   //quit browser of lambda session
+            else
+                homePage.quitDriver();  //local machine browser quit
+        }
+    }
 
     public BrowserUtilty getInstance(){
 

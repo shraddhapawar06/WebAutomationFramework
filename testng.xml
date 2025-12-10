@@ -4,12 +4,16 @@
     <listeners>
         <listener class-name="com.ui.listeners.TestListener"/>
     </listeners>
-    <test name="UI Automation Tests" preserve-order="true">
-        <classes>
-            <class name="com.ui.test.LoginTest"/>
+    <test name="UI Automation Tests">
             <parameter name="browser" value="${browser}"></parameter>
             <parameter name="isHeadLess" value="${isHeadLess}"></parameter>
             <parameter name="isLambdaTest" value="${isLambdaTest}"></parameter>
+        <classes>
+            <class name="com.ui.test.LoginTest"/>
+            <class name="com.ui.test.InvalidCredLoginTest"/>
+            <class name="com.ui.test.AddNewAddressTest"/>
+            <class name="com.ui.test.SearchProductTest"/>
+            <class name="com.ui.test.ProductCheckoutTest"/>
         </classes>
     </test>
 </suite>

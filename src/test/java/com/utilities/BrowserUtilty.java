@@ -9,11 +9,15 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +25,8 @@ import java.util.List;
 public abstract class BrowserUtilty {
     // Changed to static ThreadLocal for proper thread isolation
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static final int DEFAULT_TIMEOUT = 30;
+    private WebDriverWait wait;
 
     public BrowserUtilty(Browser browserName, boolean isHeadless) {
         super();
@@ -60,6 +66,8 @@ public abstract class BrowserUtilty {
         }
 
         driver.set(webDriver);
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(DEFAULT_TIMEOUT));
+
     }
 
     public WebDriver getDriver() {
@@ -69,6 +77,7 @@ public abstract class BrowserUtilty {
     public BrowserUtilty(WebDriver driver) {
         super();
         this.driver.set(driver);
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(DEFAULT_TIMEOUT));
     }
 
     public void goToWebsite(String url){
@@ -84,14 +93,20 @@ public abstract class BrowserUtilty {
 
     public void clickOn(By locator) {
         if (getDriver() != null) {
-            WebElement element = WaitUtility.waitForClickable(getDriver(),locator);
+            WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+            element.click();
+        }
+    }
+
+    public void clickOn(WebElement element) {
+        if (getDriver() != null) {
             element.click();
         }
     }
 
     public void enterText(By locator, String text) {
         if (getDriver() != null) {
-            WebElement element = WaitUtility.waitForVisibility(getDriver(), locator);
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             clearText(locator);
             element.sendKeys(text);
         }
@@ -99,21 +114,21 @@ public abstract class BrowserUtilty {
 
     public void clearText(By locator) {
         if (getDriver() != null) {
-            WebElement element = WaitUtility.waitForVisibility(getDriver(),locator);
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             element.clear();
         }
     }
 
     public void enterSpecialKey(By locator, Keys keyToEnter){
         if (driver.get() != null) {
-            WebElement webElement = driver.get().findElement(locator);
+            WebElement webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             webElement.sendKeys(keyToEnter);
         }
     }
 
     public String getVisibleText(By locator) {
         if (getDriver() != null) {
-            WebElement element = WaitUtility.waitForVisibility(getDriver(),locator);
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             return element.getText();
         }
         return "";
@@ -121,7 +136,7 @@ public abstract class BrowserUtilty {
 
     public List<String> getAllVisibleText(By locator){
         if (getDriver() != null) {
-            List<WebElement> webElementList = WaitUtility.waitForVisibleElements(getDriver(),locator);
+            List<WebElement> webElementList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
             List<String> textList = new ArrayList<>();
             for(WebElement element: webElementList){
                 textList.add(element.getText());
@@ -131,10 +146,16 @@ public abstract class BrowserUtilty {
         return null;
     }
 
+    public List<WebElement> getAllElements(By locator){
+        if (getDriver() != null) {
+            List<WebElement> webElementList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+            return webElementList;
+        }
+        return null;
+    }
+
     public void selectFromDropDown(By dropdownLocator, String optionToSelect){
-        WebElement element= getDriver().findElement(dropdownLocator);
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].style.display='block';", element);
+        WebElement element= wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownLocator));
         Select select= new Select(element);
         select.selectByContainsVisibleText(optionToSelect);
     }
@@ -143,6 +164,11 @@ public abstract class BrowserUtilty {
             clickOn(locator);
             clickOn(By.xpath("//*[text()='"+optionValue+"']"));
         }
+    }
+    public void actionClick(By locator){
+        WebElement element= wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        Actions actions= new Actions(getDriver());
+        actions.moveToElement(element).click().build().perform();
     }
 
     public String takeScreenshot(String name){
