@@ -2,7 +2,7 @@
 
 
 
-This is a scalable, modular, data-driven UI Test Automation Framework built using Java 11 and TestNG, designed for local + cloud execution (LambdaTest).
+This is a scalable, modular, data-driven UI Test Automation Framework built using Java 21 and TestNG, designed for local + cloud execution (LambdaTest).
 It incorporates modern automation engineering practices like:
 ✔ Page Object Model (POM)
 ✔ Config-driven execution
@@ -60,7 +60,7 @@ My major experties is in Java programming language.
 
 ## Technologies used :
 
-- Language :	Java 11
+- Language :	Java 21
 - Test Runner : TestNG
 - Build Tool : Maven
 - Cloud Execution	: LambdaTest
@@ -102,7 +102,7 @@ My major experties is in Java programming language.
 
 **Reporting & Logging**
 
-- ExtentManager → Creates HTML report and report created at Reports/report.html
+- ExtentReport utility → Creates HTML report and report created at Reports/report.html
 
 - Log4j for detailed execution-level logging (saved in /Logs)
 
@@ -112,3 +112,4 @@ This WebAutomationFramework is Integrated with github actions.
 This tests will be executed at 11.30pm IST every day.
 The report will be archieved in gh-pages branch.
 You can view the html report at https://shraddhapawar06.github.io/WebAutomationFramework/ExtentReport.html
+
