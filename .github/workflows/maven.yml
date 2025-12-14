@@ -2,8 +2,8 @@ name: Test Automation workflow
 
 on:
 
-  schedule:
-  - cron: 00 18 * * *
+ # schedule:
+ # - cron: 00 18 * * *
   push:
     branches: [ "master" ]
   pull_request:
